@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>MPI Seni Rupa - SBK Kelas X SMK</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+body{font-family:'Trebuchet MS',Verdana,sans-serif;background:linear-gradient(160deg,#0b3d91,#1e6fd9);color:#0f2a5c;min-height:100vh}
+.card{background:#fff;border-radius:16px;padding:16px;box-shadow:0 4px 14px rgba(0,0,0,.15)}
+.btn{background:#1e6fd9;color:#fff;font-weight:700;border-radius:12px;padding:10px 18px;border:0;cursor:pointer;transition:transform .15s,background .15s}
+.btn:hover{background:#ffc93c;color:#0b3d91;transform:translateY(-2px)}
+.btn.alt{background:#eaf3ff;color:#0b3d91}
+.btn.alt:hover{background:#ffc93c}
+.btn.sel{outline:3px solid #ffc93c;background:#cfe3ff}
+.btn.ok{background:#16a34a;color:#fff}.btn.bad{background:#dc2626;color:#fff}
+.btn:disabled{pointer-events:none;opacity:.55}.btn.ok:disabled,.btn.bad:disabled{opacity:1}
+input[type=text]{border:2px solid #1e6fd9;border-radius:10px;padding:10px 14px;font-size:1.1rem;color:#0f2a5c;background:#fff}
+.dot{width:34px;height:34px;border-radius:50%;animation:pop .7s cubic-bezier(.3,1.6,.5,1) both}
+.ttl span{display:inline-block;animation:drop .7s cubic-bezier(.3,1.5,.5,1) both}
+#bgArt{position:fixed;inset:0;z-index:0;pointer-events:none;opacity:.28}
+main{position:relative;z-index:1}
+@keyframes pop{from{transform:scale(0)}to{transform:scale(1)}}
+@keyframes drop{from{transform:translateY(-120px);opacity:0}to{transform:none;opacity:1}}
+@media(prefers-reduced-motion:reduce){.dot,.ttl span{animation:none}}
+@media print{body *{visibility:hidden}#cert,#cert *{visibility:visible}#cert{position:absolute;left:0;top:0;width:100%}}
+</style>
+</head>
+<body>
+<div id="bgArt" aria-hidden="true"><svg viewBox="0 0 900 600" preserveAspectRatio="xMidYMid slice" width="100%" height="100%" fill="none" stroke="#fff" stroke-width="4">
+<path d="M0 300q100-60 200 0t200 0t200 0t200 0" stroke-opacity=".5" stroke-width="5"/>
+<g transform="translate(60,70) rotate(-12)"><path d="M0 60C0 10 70-10 120 10c50 20 90 60 60 100-25 33-60 0-85 25C60 170 0 130 0 60z" fill="#fff" fill-opacity=".5"/><circle cx="45" cy="55" r="12" fill="#e53935" stroke="none"/><circle cx="85" cy="40" r="12" fill="#ffc93c" stroke="none"/><circle cx="125" cy="65" r="12" fill="#43a047" stroke="none"/><circle cx="70" cy="95" r="12" fill="#00acc1" stroke="none"/></g>
+<g transform="translate(380,40)"><rect width="170" height="130" rx="4" stroke-width="8"/><path d="M12 118l45-50 30 32 25-22 45 40z" fill="#fff" fill-opacity=".5" stroke="none"/><circle cx="125" cy="38" r="14" fill="#ffc93c" stroke="none"/></g>
+<g transform="translate(700,50) rotate(35)"><rect width="14" height="150" rx="6" fill="#ffc93c" stroke="none"/><rect x="-2" y="150" width="18" height="24" fill="#fff" stroke="none"/><path d="M-2 174h18c0 25-9 36-9 36s-9-11-9-36z" fill="#e53935" stroke="none"/></g>
+<g transform="translate(110,400) rotate(-50)"><rect width="160" height="22" fill="#ffc93c" stroke="none"/><path d="M160 0l36 11-36 11z" fill="#fff" stroke="none"/><rect x="-18" width="18" height="22" fill="#e53935" stroke="none"/></g>
+<g transform="translate(720,340)"><path d="M40 0h30c0 25-12 30-12 50 40 20 45 90 0 120H52C7 140 12 70 52 50 52 30 40 25 40 0z" fill="#fff" fill-opacity=".5"/><path d="M20 100q35 20 70 0" stroke="#0b3d91"/></g>
+<circle cx="470" cy="480" r="50" fill="#43a047" fill-opacity=".6" stroke="none"/>
+<rect x="560" y="450" width="90" height="90" fill="#00acc1" fill-opacity=".6" stroke="none" transform="rotate(15 600 490)"/>
+<path d="M310 540l50-90 50 90z" fill="#e53935" fill-opacity=".6" stroke="none"/>
+<circle cx="250" cy="250" r="9" fill="#ffc93c" stroke="none"/><circle cx="600" cy="260" r="12" fill="#e53935" stroke="none"/><circle cx="840" cy="250" r="8" fill="#fff" stroke="none"/>
+</svg></div>
+<button id="homeBtn" class="btn hidden fixed top-3 left-3 z-50" data-go="menu">HOME</button>
+
+<main class="max-w-2xl mx-auto px-4 pt-16 pb-10">
+
+<!-- SPLASH -->
+<section id="splash" class="text-center text-white pt-6">
+  <div class="flex justify-center gap-2 mb-6" id="dots"></div>
+  <h1 class="ttl text-6xl sm:text-7xl font-black" id="ttl"></h1>
+  <p class="text-xl mt-3 font-bold">Media Pembelajaran Interaktif</p>
+  <p class="mt-1">Seni Budaya dan Keterampilan - Kelas X SMK</p>
+  <div class="mt-8">
+    <label for="nama" class="block mb-2 font-bold">Tulis namamu dulu</label>
+    <input id="nama" type="text" maxlength="40" autocomplete="off" placeholder="Nama lengkap" class="w-72 max-w-full text-center">
+    <label for="kelas" class="block mt-4 mb-2 font-bold">Kelas</label>
+    <input id="kelas" type="text" maxlength="20" autocomplete="off" placeholder="Contoh: X TKJ 1" class="w-72 max-w-full text-center">
+    <p id="namaErr" class="text-yellow-300 mt-2 h-6"></p>
+    <button id="mulai" class="btn text-2xl px-10 py-3 mt-2" style="background:#ffc93c;color:#0b3d91">MULAI</button>
+  </div>
+  <p class="mt-10 text-sm">Pengembang: Ulfah Wahyu Herzegovina - 2026</p>
+</section>
+
+<!-- MENU -->
+<section id="menu" class="hidden text-center text-white">
+  <h2 class="text-4xl font-black mb-1">Menu Utama</h2>
+  <p class="mb-6">Halo, <b class="nm"></b>! Pilih yang ingin kamu buka.</p>
+  <div class="grid grid-cols-2 gap-3">
+    <button class="btn text-xl py-6" data-go="home">BERANDA</button>
+    <button class="btn text-xl py-6" data-go="materi">MATERI</button>
+    <button class="btn text-xl py-6" data-go="sim">SIMULASI</button>
+    <button class="btn text-xl py-6" data-go="kuis">KUIS</button>
+  </div>
+  <button class="btn alt mt-5" id="setBtn">SETTING</button>
+  <div id="setBox" class="card mt-3 hidden text-left">
+    <div class="flex items-center justify-between mb-3"><span class="font-bold">Musik latar</span><button id="musBtn" class="btn">ON</button></div>
+    <label class="font-bold block mb-1" for="vol">Volume</label>
+    <input id="vol" type="range" min="0" max="100" value="50" class="w-full">
+  </div>
+  <p class="mt-8 text-sm">Pengembang: Ulfah Wahyu Herzegovina - 2026</p>
+</section>
+
+<!-- BERANDA -->
+<section id="home" class="hidden">
+  <div class="card">
+    <h2 class="text-3xl font-black mb-2">Selamat datang, <span class="nm"></span></h2>
+    <p class="mb-3">Di media ini kamu belajar Seni Rupa: unsur dan prinsip, karya dua dimensi dan tiga dimensi, serta cara mengapresiasi karya.</p>
+    <h3 class="font-bold mb-1">Tujuan pembelajaran</h3>
+    <p class="mb-3">Kamu dapat mengidentifikasi unsur dan prinsip seni rupa, membedakan karya seni rupa dua dimensi dan tiga dimensi, serta mengapresiasi karya seni rupa secara sederhana.</p>
+    <h3 class="font-bold mb-1">Cara belajar</h3>
+    <ol class="list-decimal ml-5 space-y-1">
+      <li>Buka MATERI dan klik setiap kartu untuk membaca isinya.</li>
+      <li>Main KUIS: ada 4 game, tiap game punya 3 level.</li>
+      <li>Kerjakan SIMULASI 10 soal dan dapatkan sertifikat.</li>
+    </ol>
+  </div>
+</section>
+
+<!-- MATERI -->
+<section id="materi" class="hidden">
+  <h2 class="text-3xl font-black text-white mb-3">Materi</h2>
+  <div id="tabs" class="flex flex-wrap gap-2 mb-3"></div>
+  <p class="text-white mb-2 text-sm">Klik judul kartu untuk membuka penjelasan.</p>
+  <div id="items" class="space-y-2"></div>
+</section>
+
+<!-- KUIS -->
+<section id="kuis" class="hidden">
+  <h2 class="text-3xl font-black text-white mb-3">Kuis</h2>
+  <div id="kuisBox" class="card"></div>
+</section>
+
+<!-- SIMULASI -->
+<section id="sim" class="hidden">
+  <h2 class="text-3xl font-black text-white mb-3">Simulasi</h2>
+  <div id="simBox" class="card"></div>
+</section>
+
+</main>
+
+<script>
+const $=s=>document.querySelector(s);
+let NAMA="",KELAS="";
+const SHEET_URL=""; // Tempel URL Web App spreadsheet di sini agar nilai terkirim
+
+/* ---------- AUDIO ---------- */
+let ac,mg,bg,music=true;
+function tone(f,t,d,type,g,dest){const o=ac.createOscillator(),e=ac.createGain();o.type=type;o.frequency.value=f;o.connect(e);e.connect(dest||mg);const n=ac.currentTime+t;e.gain.setValueAtTime(g,n);e.gain.exponentialRampToValueAtTime(.001,n+d);o.start(n);o.stop(n+d)}
+function initA(){if(ac)return;ac=new(window.AudioContext||window.webkitAudioContext)();mg=ac.createGain();mg.gain.value=$("#vol").value/100;mg.connect(ac.destination);bg=ac.createGain();bg.gain.value=.25;bg.connect(mg);
+ const mel=[523,659,784,659,587,698,880,698,659,784,988,784,523,659,784,1047];let b=0;
+ setInterval(()=>{if(!music)return;const f=mel[b++%16];tone(f,0,.3,"triangle",.5,bg);if(b%4==1)tone(f/2,0,.6,"sine",.5,bg)},330)}
+function sfx(k){if(!ac)return;if(k=="ok"){tone(784,0,.12,"sine",.3);tone(1047,.1,.2,"sine",.3)}else if(k=="no")tone(196,0,.25,"sawtooth",.15);else tone(660,0,.07,"square",.1)}
+document.addEventListener("click",e=>{if(e.target.closest("button")){initA();sfx("click")}},true);
+$("#vol").oninput=e=>{if(mg)mg.gain.value=e.target.value/100};
+$("#musBtn").onclick=e=>{music=!music;e.target.textContent=music?"ON":"OFF"};
+$("#setBtn").onclick=()=>$("#setBox").classList.toggle("hidden");
+
+/* ---------- NAVIGASI ---------- */
+const SCR=["splash","menu","home","materi","kuis","sim"];
+function go(id){SCR.forEach(s=>$("#"+s).classList.toggle("hidden",s!=id));$("#homeBtn").classList.toggle("hidden",id=="splash");
+ if(id=="materi")renderMat();if(id=="kuis")kuisMenu();if(id=="sim")simStart();window.scrollTo(0,0)}
+document.addEventListener("click",e=>{const b=e.target.closest("[data-go]");if(b)go(b.dataset.go)});
+
+/* ---------- SPLASH ---------- */
+"SENI RUPA".split("").forEach((c,i)=>{const s=document.createElement("span");s.innerHTML=c==" "?"&nbsp;":c;s.style.animationDelay=i*.08+"s";$("#ttl").appendChild(s)});
+["#e53935","#fb8c00","#ffc93c","#43a047","#00acc1","#8e24aa","#ffffff"].forEach((c,i)=>{const d=document.createElement("div");d.className="dot";d.style.background=c;d.style.animationDelay=.8+i*.1+"s";$("#dots").appendChild(d)});
+function mulai(){const n=$("#nama").value.trim(),k=$("#kelas").value.trim();if(!n){$("#namaErr").textContent="Nama belum diisi.";return}if(!k){$("#namaErr").textContent="Kelas belum diisi.";return}NAMA=n;KELAS=k;document.querySelectorAll(".nm").forEach(x=>x.textContent=n);go("menu")}
+$("#mulai").onclick=mulai;
+$("#nama").addEventListener("keydown",e=>{if(e.key=="Enter")$("#kelas").focus()});
+$("#kelas").addEventListener("keydown",e=>{if(e.key=="Enter")mulai()});
+
+/* ---------- MATERI ---------- */
+const MAT={
+"Unsur":[["Titik","Unsur terkecil dalam karya. Kumpulan titik dapat membentuk garis, bidang, dan tekstur, seperti pada teknik pointilis."],["Garis","Goresan memanjang yang menghubungkan dua titik. Bisa lurus, lengkung, atau patah, dan memberi kesan arah atau gerak."],["Bidang","Area dua dimensi yang dibatasi garis atau warna. Bidang geometris teratur, bidang organis tidak teratur."],["Bentuk","Wujud benda yang memiliki volume, atau tampak berwujud melalui gelap terang."],["Ruang","Jarak dan kedalaman. Ruang nyata ada pada patung, ruang semu pada lukisan lewat perspektif."],["Warna","Kesan yang ditimbulkan cahaya pada mata. Dibedakan dari corak (hue), nilai (terang gelap), dan intensitas."],["Tekstur","Kesan halus atau kasar pada permukaan. Tekstur nyata bisa diraba, tekstur semu hanya terlihat."]],
+"Prinsip":[["Kesatuan (unity)","Keterpaduan semua unsur sehingga karya tampak utuh."],["Keseimbangan (balance)","Pembagian bobot visual secara simetris, asimetris, atau radial."],["Irama (ritme)","Pengulangan unsur secara teratur atau bervariasi yang membentuk alur pandang."],["Proporsi","Perbandingan ukuran antarbagian dan terhadap keseluruhan karya."],["Penekanan (emphasis)","Pusat perhatian atau fokus dalam karya."],["Harmoni","Keselarasan antarunsur sehingga enak dipandang."]],
+"2D dan 3D":[["Seni rupa dua dimensi","Memiliki panjang dan lebar, dinikmati dari satu arah. Contoh: lukisan, gambar, poster, fotografi, batik."],["Seni rupa tiga dimensi","Memiliki panjang, lebar, dan tinggi, dinikmati dari berbagai sisi. Contoh: patung, keramik, relief, instalasi."],["Seni murni dan terapan","Seni murni dinikmati keindahannya (lukisan). Seni terapan punya fungsi pakai (kerajinan, desain produk)."]],
+"Apresiasi":[["1. Deskripsi","Mengamati dan menyebutkan apa yang terlihat: objek, warna, garis, bahan, ukuran."],["2. Analisis","Menguraikan unsur dan prinsip yang dipakai serta cara penataannya."],["3. Interpretasi","Menafsirkan makna atau pesan yang ingin disampaikan seniman."],["4. Evaluasi","Menilai kualitas karya dengan alasan yang jelas, bukan sekadar suka atau tidak suka."]]};
+let tab="Unsur";
+function renderMat(){const ks=Object.keys(MAT);
+ $("#tabs").innerHTML=ks.map(k=>`<button class="btn ${k==tab?"":"alt"}" data-tab="${k}">${k}</button>`).join("");
+ $("#items").innerHTML=MAT[tab].map(([t,d])=>`<div class="card"><button class="btn alt w-full text-left" data-rv="1">${t}</button><p class="hidden mt-2">${d}</p></div>`).join("")}
+$("#tabs").onclick=e=>{const b=e.target.closest("[data-tab]");if(b){tab=b.dataset.tab;renderMat()}};
+$("#items").onclick=e=>{const b=e.target.closest("[data-rv]");if(b)b.nextElementSibling.classList.toggle("hidden")};
+
+/* ---------- KUIS ---------- */
+const TF=(a)=>a.map(([s,v])=>[s,["Benar","Salah"],v?0:1]);
+const G={
+"Pilihan Cepat":{t:"mc",L:[
+ [["Unsur terkecil dalam seni rupa adalah...",["Titik","Bidang","Ruang","Warna"],0],["Lukisan termasuk seni rupa...",["Dua dimensi","Tiga dimensi","Empat dimensi","Hanya terapan"],0],["Patung termasuk seni rupa...",["Dua dimensi","Tiga dimensi","Digital saja","Grafis"],1]],
+ [["Kesan halus atau kasar pada permukaan disebut...",["Warna","Tekstur","Ruang","Garis"],1],["Pengulangan unsur secara teratur membentuk...",["Irama","Proporsi","Bentuk","Titik"],0],["Bobot visual sama di kiri dan kanan disebut keseimbangan...",["Radial","Asimetris","Simetris","Acak"],2]],
+ [["Tahap apresiasi yang menafsirkan makna karya adalah...",["Deskripsi","Analisis","Interpretasi","Evaluasi"],2],["Ruang semu pada lukisan dibuat melalui...",["Perspektif","Pahatan","Cetakan","Anyaman"],0],["Karya yang dinikmati dari banyak sisi dan punya fungsi pakai...",["Poster","Guci keramik","Lukisan kanvas","Fotografi"],1]]]},
+"Benar atau Salah":{t:"mc",L:[
+ TF([["Garis dapat dibentuk dari titik-titik yang dihubungkan.",1],["Poster termasuk seni rupa tiga dimensi.",0],["Patung dapat dinikmati dari banyak sisi.",1]]),
+ TF([["Warna termasuk unsur seni rupa.",1],["Penekanan membuat semua bagian tampak sama penting.",0],["Proporsi berkaitan dengan perbandingan ukuran.",1]]),
+ TF([["Evaluasi dalam apresiasi hanya berdasarkan suka atau tidak suka.",0],["Tekstur semu hanya terlihat dan tidak terasa saat diraba.",1],["Kesatuan membuat unsur tampak terpecah-pecah.",0]])]},
+"Pasangkan":{t:"mt",L:[
+ [["Titik","Unsur terkecil"],["Garis","Goresan memanjang"],["Warna","Kesan cahaya pada mata"]],
+ [["Titik","Unsur terkecil"],["Tekstur","Halus kasarnya permukaan"],["Bidang","Area yang dibatasi garis"],["Ruang","Jarak dan kedalaman"]],
+ [["Irama","Pengulangan unsur"],["Proporsi","Perbandingan ukuran"],["Penekanan","Pusat perhatian"],["Keseimbangan","Pembagian bobot visual"],["Kesatuan","Keterpaduan unsur"]]]},
+"Susun Huruf":{t:"sc",L:[
+ [["GARIS","Goresan memanjang"],["TITIK","Unsur terkecil"],["WARNA","Merah, biru, kuning termasuk unsur ini"]],
+ [["TEKSTUR","Kesan halus atau kasar"],["BIDANG","Area dua dimensi"],["PATUNG","Contoh karya tiga dimensi"]],
+ [["PROPORSI","Perbandingan ukuran bagian"],["PERSPEKTIF","Teknik membuat kesan jarak dan kedalaman"],["INTERPRETASI","Menafsirkan makna karya"]]]}};
+const GN=Object.keys(G);let open={},K={};
+const kb=()=>$("#kuisBox");
+function kuisMenu(){kb().innerHTML=`<h3 class="font-black text-xl mb-3">Pilih game</h3>`+GN.map((g,i)=>`<button class="btn w-full mb-2" data-g="${i}">${g}</button>`).join("")}
+function levelMenu(gi){const o=open[gi]||1;kb().innerHTML=`<h3 class="font-black text-xl mb-3">${GN[gi]}: pilih level</h3>`+[1,2,3].map(l=>`<button class="btn w-full mb-2" data-l="${l-1}" ${l>o?"disabled":""}>Level ${l}${l>o?" (terkunci)":""}</button>`).join("")+`<button class="btn alt w-full" data-act="kmenu">Kembali</button>`}
+const hd=()=>`<p class="text-sm font-bold mb-2">${GN[K.gi]} - Level ${K.li+1}${K.items?" - Soal "+(K.i+1)+"/"+K.items.length:""}</p>`;
+function play(gi,li){const g=G[GN[gi]];K={gi,li,i:0,got:0,t:g.t};if(g.t=="mt")qMt(g.L[li]);else{K.items=g.L[li];qNext()}}
+function qNext(){const it=K.items[K.i];
+ if(K.t=="mc")kb().innerHTML=hd()+`<p class="font-bold text-lg mb-3">${it[0]}</p>`+it[1].map((o,j)=>`<button class="btn alt w-full mb-2 text-left" data-o="${j}">${o}</button>`).join("")+`<div id="fb"></div>`;
+ else{let s;do{s=[...it[0]].sort(()=>Math.random()-.5).join("")}while(s==it[0]);
+  kb().innerHTML=hd()+`<p class="mb-2">${it[1]}</p><p class="text-3xl font-black tracking-widest mb-3">${s}</p><input id="ans" type="text" maxlength="20" autocomplete="off" class="uppercase w-48 max-w-full"> <button class="btn" data-act="cek">Cek</button><div id="fb" class="mt-2"></div>`;$("#ans").focus()}}
+function fb(ok,extra){K.got+=ok?1:0;sfx(ok?"ok":"no");$("#fb").innerHTML=`<p class="font-bold my-2 ${ok?"text-green-700":"text-red-700"}">${ok?"Benar!":"Belum tepat. "+(extra||"")}</p><button class="btn" data-act="next">Lanjut</button>`}
+function qMt(p){const R=p.map((x,i)=>[x[1],i]).sort(()=>Math.random()-.5);K.m={a:null,ok:0,err:0,n:p.length};
+ kb().innerHTML=hd()+`<p class="mb-2">Pilih istilah, lalu pilih artinya.</p><div class="grid grid-cols-2 gap-2"><div>`+p.map((x,i)=>`<button class="btn alt w-full mb-2" data-ml="${i}">${x[0]}</button>`).join("")+`</div><div>`+R.map(x=>`<button class="btn alt w-full mb-2" data-mr="${x[1]}">${x[0]}</button>`).join("")+`</div></div>`}
+function fin(got,total){const pass=got/total>=.6,gi=K.gi,li=K.li;if(pass&&li<2)open[gi]=Math.max(open[gi]||1,li+2);sfx(pass?"ok":"no");
+ kb().innerHTML=`<h3 class="font-black text-2xl mb-2">${pass?"Level selesai!":"Coba lagi, ya"}</h3><p class="mb-4">Skor: <b>${got}/${total}</b>${pass?"":" (minimal 60% untuk lanjut)"}</p>`+(pass&&li<2?`<button class="btn w-full mb-2" data-l="${li+1}">Level ${li+2}</button>`:"")+`<button class="btn alt w-full mb-2" data-l="${li}">Ulangi level</button><button class="btn alt w-full" data-act="kmenu">Pilih game</button>`}
+kb().addEventListener("click",e=>{const t=e.target.closest("button");if(!t)return;const d=t.dataset;
+ if(d.g!==undefined){K.gi=+d.g;levelMenu(+d.g)}
+ else if(d.l!==undefined)play(K.gi,+d.l);
+ else if(d.act=="kmenu")kuisMenu();
+ else if(d.act=="next"){K.i++;K.i>=K.items.length?fin(K.got,K.items.length):qNext()}
+ else if(d.act=="cek"){const a=$("#ans");if(!a||a.disabled)return;a.disabled=true;t.disabled=true;const w=K.items[K.i][0];fb(a.value.trim().toUpperCase()==w,"Jawaban: "+w)}
+ else if(d.o!==undefined){const it=K.items[K.i],ok=+d.o==it[2];kb().querySelectorAll("[data-o]").forEach(b=>{b.disabled=true;if(+b.dataset.o==it[2])b.className="btn ok w-full mb-2 text-left";});if(!ok)t.className="btn bad w-full mb-2 text-left";fb(ok)}
+ else if(d.ml!==undefined){K.m.a=d.ml;kb().querySelectorAll("[data-ml]").forEach(b=>b.classList.toggle("sel",b==t))}
+ else if(d.mr!==undefined&&K.m.a!==null){const m=K.m;if(m.a==d.mr){kb().querySelectorAll(`[data-ml="${m.a}"],[data-mr="${d.mr}"]`).forEach(b=>{b.className="btn ok w-full mb-2";b.disabled=true});sfx("ok");m.ok++;if(m.ok==m.n)setTimeout(()=>fin(Math.max(0,m.n-m.err),m.n),600)}else{m.err++;sfx("no");kb().querySelectorAll("[data-ml]").forEach(b=>b.classList.remove("sel"))}m.a=null}});
+kb().addEventListener("keydown",e=>{if(e.key=="Enter"&&e.target.id=="ans")kb().querySelector('[data-act="cek"]').click()});
+
+/* ---------- SIMULASI ---------- */
+const SIM=[
+["mc","Unsur terkecil dalam seni rupa adalah...",["Titik","Bidang","Ruang","Tekstur"],0],
+["mc","Karya yang memiliki panjang, lebar, dan tinggi adalah...",["Poster","Lukisan","Patung","Fotografi"],2],
+["mc","Pembagian bobot visual yang sama di kiri dan kanan disebut keseimbangan...",["Simetris","Asimetris","Acak","Kontras"],0],
+["mc","Tahap apresiasi yang menilai kualitas karya adalah...",["Deskripsi","Analisis","Interpretasi","Evaluasi"],3],
+["dr","Lukisan termasuk seni rupa "," dimensi.",["dua","tiga","empat"],"dua"],
+["dr","Kesan halus atau kasar pada permukaan disebut ","." ,["tekstur","warna","ruang"],"tekstur"],
+["dr","Pengulangan unsur secara teratur disebut ",".",["irama","proporsi","kesatuan"],"irama"],
+["mk","Tandai kata yang merupakan UNSUR seni rupa.",["garis","irama","warna","proporsi","bidang","kesatuan"],["garis","warna","bidang"]],
+["mk","Tandai contoh karya seni rupa TIGA dimensi.",["lukisan","patung","poster","keramik","relief","fotografi"],["patung","keramik","relief"]],
+["mk","Tandai tahapan apresiasi karya seni.",["deskripsi","analisis","perspektif","interpretasi","evaluasi","tekstur"],["deskripsi","analisis","interpretasi","evaluasi"]]];
+let S={};const sb=()=>$("#simBox");
+const jenis={mc:"Pilihan Ganda",dr:"Drag the Word",mk:"Mark the Word"};
+function simStart(){S={i:0,got:0};simQ()}
+function simQ(){const q=SIM[S.i];S.pick=null;S.sel=new Set();S.chk=false;
+ let h=`<p class="text-sm font-bold mb-1">Soal ${S.i+1}/10 - ${jenis[q[0]]}</p>`;
+ if(q[0]=="mc")h+=`<p class="font-bold text-lg mb-3">${q[1]}</p>`+q[2].map((o,j)=>`<button class="btn alt w-full mb-2 text-left" data-o="${j}">${o}</button>`).join("");
+ if(q[0]=="dr")h+=`<p class="mb-3 text-lg">Seret kata ke kotak (atau klik kata). </p><p class="text-xl mb-4">${q[1]}<span id="blank" class="inline-block min-w-[100px] border-b-4 border-yellow-400 text-center font-black px-2">&nbsp;</span>${q[2]}</p><div class="flex gap-2 flex-wrap mb-3">`+q[3].map(w=>`<button class="btn alt" draggable="true" data-chip="${w}">${w}</button>`).join("")+`</div>`;
+ if(q[0]=="mk")h+=`<p class="mb-3 font-bold">${q[1]}</p><div class="flex gap-2 flex-wrap mb-3">`+q[2].map(w=>`<button class="btn alt" data-w="${w}">${w}</button>`).join("")+`</div>`;
+ sb().innerHTML=h+`<div id="sfb"><button class="btn mt-2" data-act="cek">Periksa</button></div>`}
+function fill(w){if(S.chk)return;S.pick=w;$("#blank").textContent=w}
+sb().addEventListener("click",e=>{const t=e.target.closest("button");if(!t)return;const d=t.dataset;
+ if(d.o!==undefined&&!S.chk){S.pick=+d.o;sb().querySelectorAll("[data-o]").forEach(b=>b.classList.toggle("sel",b==t))}
+ else if(d.chip!==undefined)fill(d.chip);
+ else if(d.w!==undefined&&!S.chk){S.sel.has(d.w)?S.sel.delete(d.w):S.sel.add(d.w);t.classList.toggle("sel")}
+ else if(d.act=="cek"&&!S.chk){const q=SIM[S.i];let ok=false;
+  if(q[0]=="mc")ok=S.pick===q[3];
+  if(q[0]=="dr")ok=S.pick===q[4];
+  if(q[0]=="mk")ok=S.sel.size==q[3].length&&q[3].every(w=>S.sel.has(w));
+  S.chk=true;S.got+=ok?1:0;sfx(ok?"ok":"no");
+  sb().querySelectorAll("button[data-o]").forEach(b=>{b.disabled=true;if(+b.dataset.o==q[3])b.className="btn ok w-full mb-2 text-left"});
+  sb().querySelectorAll("button[data-chip],button[data-w]").forEach(b=>b.disabled=true);
+  $("#sfb").innerHTML=`<p class="font-bold my-2 ${ok?"text-green-700":"text-red-700"}">${ok?"Benar!":"Belum tepat."}</p><button class="btn" data-act="next">${S.i==9?"Lihat hasil":"Lanjut"}</button>`}
+ else if(d.act=="next"){S.i++;S.i>=10?simEnd():simQ()}
+ else if(d.act=="ulang")simStart();
+ else if(d.act=="cetak")window.print()});
+sb().addEventListener("dragstart",e=>{const c=e.target.closest("[data-chip]");if(c)e.dataTransfer.setData("text/plain",c.dataset.chip)});
+sb().addEventListener("dragover",e=>{if(e.target.closest("#blank"))e.preventDefault()});
+sb().addEventListener("drop",e=>{if(e.target.closest("#blank")){e.preventDefault();fill(e.dataTransfer.getData("text/plain"))}});
+function kirim(n,s){if(!SHEET_URL)return false;try{fetch(SHEET_URL,{method:"POST",mode:"no-cors",headers:{"Content-Type":"text/plain"},body:JSON.stringify({nama:n,kelas:KELAS,nilai:s,mapel:"SBK Seni Rupa Kelas X SMK",waktu:new Date().toLocaleString("id-ID")})});return true}catch(x){return false}}
+function simEnd(){const sc=S.got*10,pred=sc>=85?"Sangat Baik":sc>=70?"Baik":sc>=55?"Cukup":"Perlu Belajar Lagi",sent=kirim(NAMA,sc);
+ const tgl=new Date().toLocaleDateString("id-ID",{day:"numeric",month:"long",year:"numeric"});
+ sb().innerHTML=`<div id="cert" class="text-center p-6 rounded-xl" style="border:8px double #ffc93c;background:#f5faff"><p class="text-sm font-bold">MPI SBK SENI RUPA - KELAS X SMK</p><h3 class="text-3xl font-black my-2" style="color:#0b3d91">Sertifikat Pencapaian</h3><p>diberikan kepada</p><p id="cn" class="text-3xl font-black my-2" style="color:#1e6fd9"></p><p id="ck" class="font-bold mb-2"></p><p>atas keberhasilan menyelesaikan simulasi dengan nilai</p><p class="text-6xl font-black my-2" style="color:#0b3d91">${sc}</p><p class="font-bold mb-3">Predikat: ${pred}</p><p class="text-sm">${tgl}</p><p class="text-sm mt-1">Pengembang: Ulfah Wahyu Herzegovina - 2026</p></div><p class="text-sm mt-3">${sent?"Nilai sudah dikirim ke spreadsheet.":"Nilai belum dikirim: URL spreadsheet (SHEET_URL) belum diisi di kode."}</p><div class="flex gap-2 mt-3"><button class="btn" data-act="cetak">Cetak</button><button class="btn alt" data-act="ulang">Ulangi simulasi</button></div>`;
+ $("#cn").textContent=NAMA;$("#ck").textContent="Kelas "+KELAS}
+</script>
+</body>
+</html>
